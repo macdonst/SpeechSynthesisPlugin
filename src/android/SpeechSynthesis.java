@@ -70,16 +70,17 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
                     HashMap<String, String> map = null;
                     map = new HashMap<String, String>();
                     map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackContext.getCallbackId());
-                    mTts.speak(text, TextToSpeech.QUEUE_ADD, map);
-                    PluginResult pr = new PluginResult(PluginResult.Status.NO_RESULT);
+                    JSONObject event = new JSONObject();
+                    event.put("type","start");
+                    event.put("charIndex",0);
+                    event.put("elapsedTime",0);
+                    event.put("name","");
+                    PluginResult pr = new PluginResult(PluginResult.Status.OK, event);
                     pr.setKeepCallback(true);
                     callbackContext.sendPluginResult(pr);
+                    mTts.speak(text, TextToSpeech.QUEUE_ADD, map);
                 } else {
-                    Log.d(LOG_TAG, "still init");
-                    JSONObject error = new JSONObject();
-                    error.put("message","TTS service is still initialzing.");
-                    error.put("code", SpeechSynthesis.INITIALIZING);
-                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, error));
+                    fireErrorEvent(callbackContext);
                 }
             } else if (action.equals("cancel")) {
                 if (isReady()) {
@@ -87,14 +88,9 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
                     map = new HashMap<String, String>();
                     //map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackId);
                     mTts.speak("", TextToSpeech.QUEUE_FLUSH, map);
-                    PluginResult pr = new PluginResult(PluginResult.Status.NO_RESULT);
-                    pr.setKeepCallback(true);
-                    callbackContext.sendPluginResult(pr);
+                    fireEndEvent(callbackContext);
                 } else {
-                    JSONObject error = new JSONObject();
-                    error.put("message","TTS service is still initialzing.");
-                    error.put("code", SpeechSynthesis.INITIALIZING);
-                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, error));
+                    fireErrorEvent(callbackContext);
                 }
             } else if (action.equals("pause")) {
                 Log.d(LOG_TAG, "Not implemented yet");
@@ -105,10 +101,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
                     mTts.stop();
                     callbackContext.sendPluginResult(new PluginResult(status, result));
                 } else {
-                    JSONObject error = new JSONObject();
-                    error.put("message","TTS service is still initialzing.");
-                    error.put("code", SpeechSynthesis.INITIALIZING);
-                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, error));
+                    fireErrorEvent(callbackContext);
                 }
             } else if (action.equals("silence")) {
                 if (isReady()) {
@@ -120,10 +113,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
                     pr.setKeepCallback(true);
                     callbackContext.sendPluginResult(pr);
                 } else {
-                    JSONObject error = new JSONObject();
-                    error.put("message","TTS service is still initialzing.");
-                    error.put("code", SpeechSynthesis.INITIALIZING);
-                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, error));
+                    fireErrorEvent(callbackContext);
                 }
             } else if (action.equals("startup")) {
                 this.startupCallbackContext = callbackContext;
@@ -180,6 +170,28 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
             callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.JSON_EXCEPTION));
         }
         return false;
+    }
+
+    private void fireEndEvent(CallbackContext callbackContext) {
+        JSONObject event = new JSONObject();
+        try {
+            event.put("type","end");
+        } catch (JSONException e) {
+            // this will never happen
+        }
+        PluginResult pr = new PluginResult(PluginResult.Status.OK, event);
+        pr.setKeepCallback(false);
+        callbackContext.sendPluginResult(pr);
+    }
+
+    private void fireErrorEvent(CallbackContext callbackContext)
+            throws JSONException {
+        JSONObject error = new JSONObject();
+        error.put("type","error");
+        error.put("charIndex",0);
+        error.put("elapsedTime",0);
+        error.put("name","");
+        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, error));
     }
 
     /**
@@ -252,8 +264,6 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
      * Once the utterance has completely been played call the speak's success callback
      */
     public void onUtteranceCompleted(String utteranceId) {
-        PluginResult result = new PluginResult(PluginResult.Status.OK);
-        result.setKeepCallback(false);
-        this.callbackContext.sendPluginResult(result);        
+        fireEndEvent(callbackContext);
     }
 }
