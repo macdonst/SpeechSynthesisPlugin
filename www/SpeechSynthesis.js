@@ -1,33 +1,30 @@
-cordova.define("org.apache.cordova.speech.speechsynthesis",
-  function(require, exports, module) {
-    var exec = require("cordova/exec");
-    
-    var SpeechSynthesis = function() {
-        this.pending = false;
-        this.speaking = false;
-        this.paused = false;
-        exec(null, null, "SpeechSynthesis", "startup", []);
-    };
+var exec = require("cordova/exec");
 
-    SpeechSynthesis.prototype.speak = function(utterance) {
-        exec(null, null, "SpeechSynthesis", "speak", [utterance]);
-    };
+var SpeechSynthesis = function() {
+    this.pending = false;
+    this.speaking = false;
+    this.paused = false;
+    exec(null, null, "SpeechSynthesis", "startup", []);
+};
 
-    SpeechSynthesis.prototype.cancel = function() {
-        exec(null, null, "SpeechSynthesis", "cancel", []);
-    };
+SpeechSynthesis.prototype.speak = function(utterance) {
+    exec(null, null, "SpeechSynthesis", "speak", [utterance]);
+};
 
-    SpeechSynthesis.prototype.pause = function() {
-        exec(null, null, "SpeechSynthesis", "pause", []);
-    };
+SpeechSynthesis.prototype.cancel = function() {
+    exec(null, null, "SpeechSynthesis", "cancel", []);
+};
 
-    SpeechSynthesis.prototype.resume = function() {
-        exec(null, null, "SpeechSynthesis", "resume", []);
-    };
+SpeechSynthesis.prototype.pause = function() {
+    exec(null, null, "SpeechSynthesis", "pause", []);
+};
 
-    SpeechSynthesis.prototype.getVoices = function(win, fail) {
-        exec(win, fail, "SpeechSynthesis", "getVoices", []);
-    };
-    
-    module.exports = new SpeechSynthesis();
-});
+SpeechSynthesis.prototype.resume = function() {
+    exec(null, null, "SpeechSynthesis", "resume", []);
+};
+
+SpeechSynthesis.prototype.getVoices = function(win, fail) {
+    exec(win, fail, "SpeechSynthesis", "getVoices", []);
+};
+
+module.exports = new SpeechSynthesis();
