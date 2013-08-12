@@ -1,34 +1,40 @@
+
 var exec = require("cordova/exec");
+var SpeechSynthesisVoiceList = require("org.apache.cordova.speech.speechsynthesis.SpeechSynthesisVoiceList");
 
 var SpeechSynthesis = function() {
     this.pending = false;
     this.speaking = false;
     this.paused = false;
-    exec(null, null, "SpeechSynthesis", "startup", []);
+    this._voices = null;
+    var that = this;
+    var successCallback = function(data) {
+    	that._voices = new SpeechSynthesisVoiceList(data);
+    };
+    exec(successCallback, null, "SpeechSynthesis", "startup", []);
 };
 
 SpeechSynthesis.prototype.speak = function(utterance) {
 	var successCallback = function(event) {
-		if (event.type === "start" && typeof utterance.onStart === "function") {
-			utterance.onStart(event);
-		} else if (event.type === "end" && typeof utterance.onEnd === "function") {
-			utterance.onEnd(event);
-		} else if (event.type === "pause" && typeof utterance.onPause === "function") {
-			utterance.onPause(event);
-		} else if (event.type === "resume" && typeof utterance.onResume === "function") {
-			utterance.onResume(event);
-		} else if (event.type === "mark" && typeof utterance.onMark === "function") {
-			utterance.onMark(event);
-		} else if (event.type === "boundry" && typeof utterance.onBoundry === "function") {
-			utterance.onBoundry(event);
+		if (event.type === "start" && typeof utterance.onstart === "function") {
+			utterance.onstart(event);
+		} else if (event.type === "end" && typeof utterance.onend === "function") {
+			utterance.onend(event);
+		} else if (event.type === "pause" && typeof utterance.onpause === "function") {
+			utterance.onpause(event);
+		} else if (event.type === "resume" && typeof utterance.onresume === "function") {
+			utterance.onresume(event);
+		} else if (event.type === "mark" && typeof utterance.onmark === "function") {
+			utterance.onmark(event);
+		} else if (event.type === "boundry" && typeof utterance.onboundry === "function") {
+			utterance.onboundry(event);
 		}
 	};
 	var errorCallback = function() {
-		if (typeof utterance.onError === "function") {
-			utterance.onError();
+		if (typeof utterance.onerror === "function") {
+			utterance.onerror();
 		}
 	};
-
 
     exec(successCallback, errorCallback, "SpeechSynthesis", "speak", [utterance]);
 };
@@ -45,8 +51,8 @@ SpeechSynthesis.prototype.resume = function() {
     exec(null, null, "SpeechSynthesis", "resume", []);
 };
 
-SpeechSynthesis.prototype.getVoices = function(win, fail) {
-    exec(win, fail, "SpeechSynthesis", "getVoices", []);
+SpeechSynthesis.prototype.getVoices = function() {
+	return this._voices;
 };
 
 module.exports = new SpeechSynthesis();

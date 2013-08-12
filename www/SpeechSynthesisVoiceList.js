@@ -1,6 +1,7 @@
-var SpeechSynthesisVoiceList = function() {
-  this._list = [];
-  this.length;
+
+var SpeechSynthesisVoiceList = function(data) {
+  this._list = data;
+  this.length = this._list.length;
 };
     
 SpeechSynthesisVoiceList.prototype.item = function(item) {
