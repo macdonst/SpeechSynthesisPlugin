@@ -5,7 +5,7 @@
       version="0.1.0">
     <name>SpeechSynthesis</name>
     <description>Cordova Speech Synthesis Plugin</description>
-    <license>Apache</license>
+    <license>MIT</license>
     <keywords>cordova,speech,synthesis,tts</keywords>
 
 
