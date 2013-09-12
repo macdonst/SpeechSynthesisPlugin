@@ -15,22 +15,24 @@
 
 
 -(void)startup:(CDVInvokedUrlCommand*)command {
-    CDVPluginResult* pluginResult = nil;
+    self.pluginResult = nil;
     iSpeechSDK *sdk = [iSpeechSDK sharedSDK];
-    sdk.APIKey = @"yourApiKeyGoesHere";
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    sdk.APIKey = @"putYourAPIKeyHere";
+    self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:self.pluginResult callbackId:command.callbackId];
 }
 
 -(void)speak:(CDVInvokedUrlCommand*)command {
 
-    CDVPluginResult* pluginResult = nil;
+    self.command = command;
+    self.pluginResult = nil;
     NSDictionary* utterance = [command.arguments objectAtIndex:0];
     
     if (![utterance isEqual:[NSNull null]]) {
         
         NSString *text = [utterance objectForKey:@"text"];
         if (text) {
+            
             ISSpeechSynthesis *synthesis = [[ISSpeechSynthesis alloc] initWithText:text];
 
             /* Configuration changes here: */
@@ -38,30 +40,78 @@
             //[synthesis setBitrate:48];
             //[synthesis setSpeed:0];
             
+            NSMutableDictionary * event = [[NSMutableDictionary alloc]init];
+            [event setValue:@"start" forKey:@"type"];
+            [event setValue:[NSNumber numberWithInt:0] forKey:@"charIndex"];
+            [event setValue:[NSNumber numberWithInt:0] forKey:@"elapsedTime"];
+            [event setValue:@"" forKey:@"name"];
+            
             [synthesis setDelegate:self];
             
+            self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:event];
+            [self.pluginResult setKeepCallbackAsBool:YES];
+            [self.commandDelegate sendPluginResult:self.pluginResult callbackId:self.command.callbackId];
             
-            NSError *error;
             
-            if(![synthesis speak:&error]) {
-                [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"error speak"] callbackId:command.callbackId];
-            } else {
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-            }
+            [synthesis speakWithHandler:^(NSError *error, BOOL userCancelled) {
+                
+                if (userCancelled) {
+                    
+                    NSMutableDictionary * event = [[NSMutableDictionary alloc]init];
+                    [event setValue:@"end" forKey:@"type"];
+                    [self.pluginResult setKeepCallbackAsBool:NO];
+                    
+                    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:event] callbackId:self.command.callbackId];
+                    
+                } else {
+                    
+                    
+                    if(!error){
+                        
+                        
+                        NSMutableDictionary * event = [[NSMutableDictionary alloc]init];
+                        [event setValue:@"end" forKey:@"type"];
+
+                        
+                        [self.pluginResult setKeepCallbackAsBool:NO];
+                        
+                        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:event] callbackId:self.command.callbackId];
+                        
+                        
+                    } else {
+                        
+                        [self sendErrorCallback];
+                        
+                    }
+                }
+            }];
+            
         } else {
-            [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no text"] callbackId:command.callbackId];
+            
+            [self sendErrorCallback];
+            
         }
         
     } else {
         
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Arg was null"];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        [self sendErrorCallback];
         
     }
     
     
         
+}
+
+-(void)sendErrorCallback {
+    
+    NSMutableDictionary * error = [[NSMutableDictionary alloc]init];
+    [error setValue:@"error" forKey:@"type"];
+    [error setValue:[NSNumber numberWithInt:0] forKey:@"charIndex"];
+    [error setValue:[NSNumber numberWithInt:0] forKey:@"elapsedTime"];
+    [error setValue:@"" forKey:@"name"];
+    
+    self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:error];
+    [self.commandDelegate sendPluginResult:self.pluginResult callbackId:self.command.callbackId];
 }
 
 

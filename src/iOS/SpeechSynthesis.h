@@ -11,6 +11,8 @@
 
 @interface SpeechSynthesis : CDVPlugin <ISSpeechSynthesisDelegate>
 
+@property (nonatomic,strong) CDVInvokedUrlCommand * command;
+@property (nonatomic,strong) CDVPluginResult* pluginResult;
 
 -(void)startup:(CDVInvokedUrlCommand*)command;
 
