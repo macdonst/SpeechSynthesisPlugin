@@ -8,27 +8,6 @@
     <license>MIT</license>
     <keywords>cordova,speech,synthesis,tts</keywords>
 
-
-    <js-module src="www/SpeechSynthesis.js" name="SpeechSynthesis">
-        <clobbers target="window.speechSynthesis" />
-    </js-module>
-
-    <js-module src="www/SpeechSynthesisUtterance.js" name="SpeechSynthesisUtterance">
-        <clobbers target="SpeechSynthesisUtterance" />
-    </js-module>
-
-    <js-module src="www/SpeechSynthesisEvent.js" name="SpeechSynthesisEvent">
-        <clobbers target="SpeechSynthesisEvent" />
-    </js-module>
-
-    <js-module src="www/SpeechSynthesisVoice.js" name="SpeechSynthesisVoice">
-        <clobbers target="SpeechSynthesisVoice" />
-    </js-module>
-
-    <js-module src="www/SpeechSynthesisVoiceList.js" name="SpeechSynthesisVoiceList">
-        <clobbers target="SpeechSynthesisVoiceList" />
-    </js-module>
-
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
@@ -37,7 +16,27 @@
             </feature>
         </config-file>
 
-        <source-file src="src/android/SpeechSynthesis.java" target-dir="src/org/apache/cordova/speech" />      
+        <source-file src="src/android/SpeechSynthesis.java" target-dir="src/org/apache/cordova/speech" />
+
+        <js-module src="www/SpeechSynthesis.js" name="SpeechSynthesis">
+            <clobbers target="window.speechSynthesis" />
+        </js-module>
+
+        <js-module src="www/SpeechSynthesisUtterance.js" name="SpeechSynthesisUtterance">
+            <clobbers target="SpeechSynthesisUtterance" />
+        </js-module>
+
+        <js-module src="www/SpeechSynthesisEvent.js" name="SpeechSynthesisEvent">
+            <clobbers target="SpeechSynthesisEvent" />
+        </js-module>
+
+        <js-module src="www/SpeechSynthesisVoice.js" name="SpeechSynthesisVoice">
+            <clobbers target="SpeechSynthesisVoice" />
+        </js-module>
+
+        <js-module src="www/SpeechSynthesisVoiceList.js" name="SpeechSynthesisVoiceList">
+            <clobbers target="SpeechSynthesisVoiceList" />
+        </js-module>
      </platform>
           
 </plugin>
