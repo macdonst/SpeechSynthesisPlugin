@@ -16,7 +16,10 @@ Using the command line tools run:
 
 This plugin also works with the Apache Cordova toolset. See this Github project for an example for Android:
 
-    http://andysylvester.com/2014/02/08/first-steps-with-cordova-talk-to-me/
+    https://github.com/andysylvester/talk-to-me-cordova
+
+More info on using this plugin with Cordova is available at this <a href="http://andysylvester.com/2014/02/08/first-steps-with-cordova-talk-to-me/">blog post</a>.
+
 
 Example Code
 ============
