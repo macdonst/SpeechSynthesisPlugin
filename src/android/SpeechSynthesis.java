@@ -154,7 +154,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
             // this will never happen
         }
         PluginResult pr = new PluginResult(PluginResult.Status.OK, event);
-        pr.setKeepCallback(false);
+        pr.setKeepCallback(true);  // was false
         callbackContext.sendPluginResult(pr);
     }
 
