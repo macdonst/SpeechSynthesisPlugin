@@ -8,7 +8,8 @@ W3C Web Speech API - Speech synthesis plugin for PhoneGap
 
 Using the command line tools run:
 
-    phonegap local plugin add https://github.com/macdonst/SpeechSynthesisPlugin
+    phonegap plugin add https://github.com/macdonst/SpeechSynthesisPlugin
+    cordova plugin add https://github.com/macdonst/SpeechSynthesisPlugin
 
 ##Cordova
 
@@ -35,5 +36,3 @@ This code from the above Github project shows how to read the value of a text fi
         navigator.notification.vibrate(2000);
         document.getElementById("frm1").reset();
       }
- 
-
