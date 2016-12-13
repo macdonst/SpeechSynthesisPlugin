@@ -39,6 +39,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
         voiceList.add(Locale.JAPAN);
         voiceList.add(Locale.KOREA);
         voiceList.add(Locale.TAIWAN);
+        voiceList.add(Locale.RUSSIA);        
     }
 
     //private String startupCallbackId = "";
@@ -196,7 +197,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
                     try {
                         voice.put("voiceURI", "");
                         voice.put("name", locale.getDisplayLanguage(locale) + " " + locale.getDisplayCountry(locale));
-                        voice.put("lang", locale.getLanguage());
+                        voice.put("lang", locale.getLanguage()+"-"+locale.getCountry());
                         voice.put("localService", true);
                         voice.put("default", false);
                     } catch (JSONException e) {
