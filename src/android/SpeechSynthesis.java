@@ -60,7 +60,6 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
                         voiceCode = voice.optString("voiceURI", null);
                     }
                 }
-                this.voiceList.size();
                 if (voiceCode != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     for (Voice v : this.voiceList) {
                         if (voiceCode.equals(v.getName())) {
