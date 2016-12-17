@@ -3,6 +3,8 @@ package org.apache.cordova.speech;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.AbstractList;
 import java.util.Locale;
 
 import org.json.JSONArray;
@@ -39,7 +41,6 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
         voiceList.add(Locale.JAPAN);
         voiceList.add(Locale.KOREA);
         voiceList.add(Locale.TAIWAN);
-        voiceList.add(Locale.RUSSIA);        
     }
 
     //private String startupCallbackId = "";
@@ -121,11 +122,16 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
                 if (mTts == null) {
                     state = SpeechSynthesis.INITIALIZING;
                     mTts = new TextToSpeech(cordova.getActivity().getApplicationContext(), this);
+                }else{
+            		getVoices(callbackContext);
                 }
                 PluginResult pluginResult = new PluginResult(status, SpeechSynthesis.INITIALIZING);
                 pluginResult.setKeepCallback(true);
                 startupCallbackContext.sendPluginResult(pluginResult);
             }
+
+			
+			
             else if (action.equals("shutdown")) {
                 if (mTts != null) {
                     mTts.shutdown();
@@ -145,6 +151,37 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
             callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.JSON_EXCEPTION));
         }
         return false;
+    }
+
+    private void getVoices(CallbackContext callbackContext) {
+        JSONArray voices = new JSONArray();
+        JSONObject voice;
+        //Iterator<Locale> list = voiceList.iterator();
+	Locale[] list = Locale.getAvailableLocales();
+
+        Locale locale;
+        //while (list.hasNext()) {
+        //    locale = list.next();
+        for (int i = 0; i < list.length; i++) {
+		locale = list[i];
+            voice = new JSONObject();
+            if (mTts.isLanguageAvailable(locale) > 0) {     // ie LANG_COUNTRY_AVAILABLE or LANG_COUNTRY_VAR_AVAILABLE
+                try {
+                    voice.put("voiceURI", "");
+                    voice.put("name", locale.getDisplayLanguage(locale) + " " + locale.getDisplayCountry(locale));
+                    voice.put("lang", locale.getLanguage()+"-"+locale.getCountry());
+                    voice.put("localService", true);
+                    voice.put("default", false);
+                } catch (JSONException e) {
+                    // should never happen
+                }
+                voices.put(voice);
+            }
+        }
+        PluginResult result = new PluginResult(PluginResult.Status.OK, voices);
+        result.setKeepCallback(false);
+        startupCallbackContext.sendPluginResult(result);
+        mTts.setOnUtteranceCompletedListener(this);
     }
 
     private void fireEndEvent(CallbackContext callbackContext) {
@@ -186,30 +223,9 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
             state = SpeechSynthesis.STARTED;
-            JSONArray voices = new JSONArray();
-            JSONObject voice;
-            Iterator<Locale> list = voiceList.iterator();
-            Locale locale;
-            while (list.hasNext()) {
-                locale = list.next();
-                voice = new JSONObject();
-                if (mTts.isLanguageAvailable(locale) > 0) {
-                    try {
-                        voice.put("voiceURI", "");
-                        voice.put("name", locale.getDisplayLanguage(locale) + " " + locale.getDisplayCountry(locale));
-                        voice.put("lang", locale.getLanguage()+"-"+locale.getCountry());
-                        voice.put("localService", true);
-                        voice.put("default", false);
-                    } catch (JSONException e) {
-                        // should never happen
-                    }
-                    voices.put(voice);
-                }
-            }
-            PluginResult result = new PluginResult(PluginResult.Status.OK, voices);
-            result.setKeepCallback(false);
-            this.startupCallbackContext.sendPluginResult(result);
-            mTts.setOnUtteranceCompletedListener(this);
+            getVoices(this.startupCallbackContext);
+            
+            
 //                Putting this code in hear as a place holder. When everything moves to API level 15 or greater
 //                we'll switch over to this way of tracking progress.
 //                mTts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
