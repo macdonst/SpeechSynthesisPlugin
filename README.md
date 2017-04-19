@@ -1,17 +1,17 @@
-#SpeechSynthesisPlugin
+# SpeechSynthesisPlugin
 
 W3C Web Speech API - Speech synthesis plugin for PhoneGap
 
-#Installation
+# Installation
 
-##Phone Gap
+## Phone Gap
 
 Using the command line tools run:
 
     phonegap plugin add https://github.com/macdonst/SpeechSynthesisPlugin
     cordova plugin add https://github.com/macdonst/SpeechSynthesisPlugin
 
-##Cordova
+## Cordova
 
 This plugin also works with the Apache Cordova toolset. See this Github project for an example for Android:
 
@@ -20,7 +20,7 @@ This plugin also works with the Apache Cordova toolset. See this Github project 
 More info on using this plugin with Cordova is available at this <a href="http://andysylvester.com/2014/02/08/first-steps-with-cordova-talk-to-me/">blog post</a>.
 
 
-#Example Code
+# Example Code
 
 
 This code from the above Github project shows how to read the value of a text field, set up the plugin to speak that text, and vibrate the phone for 2 seconds:
