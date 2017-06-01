@@ -253,7 +253,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
      * @param status
      */
     public void onInit(int status) {
-        if (status == TextToSpeech.SUCCESS) {
+        if (mTts != null && status == TextToSpeech.SUCCESS) {
             state = SpeechSynthesis.STARTED;
             getVoices(this.startupCallbackContext);
             

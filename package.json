@@ -1,0 +1,33 @@
+{
+  "name": "phonegap-plugin-speech-synthesis",
+  "version": "0.1.0",
+  "description": "W3C Web Speech API - Speech synthesis plugin for PhoneGap",
+  "homepage": "https://github.com/macdonst/SpeechSynthesisPlugin#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macdonst/SpeechSynthesisPlugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/macdonst/SpeechSynthesisPlugin/issues"
+  },
+  "cordova": {
+    "id": "phonegap-plugin-speech-synthesis",
+    "platforms": [
+      "ios",
+      "android",
+      "browser"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "ecosystem:phonegap",
+    "cordova-ios",
+    "cordova-android",
+    "cordova-browser"
+  ],
+  "author": "Simon MacDonald",
+  "license": "MIT"
+}

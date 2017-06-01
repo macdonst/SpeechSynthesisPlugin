@@ -1,6 +1,6 @@
 
 var exec = require("cordova/exec");
-var SpeechSynthesisVoiceList = require("org.apache.cordova.speech.speechsynthesis.SpeechSynthesisVoiceList");
+var SpeechSynthesisVoiceList = require("./SpeechSynthesisVoiceList");
 
 var SpeechSynthesis = function() {
     this.pending = false;
@@ -53,10 +53,6 @@ SpeechSynthesis.prototype.resume = function() {
 
 SpeechSynthesis.prototype.getVoices = function() {
 	return this._voices;
-};
-
-SpeechSynthesis.prototype.silence = function (milliseconds) {
-	exec(null, null, "SpeechSynthesis", "silence", [milliseconds]);
 };
 
 module.exports = new SpeechSynthesis();
