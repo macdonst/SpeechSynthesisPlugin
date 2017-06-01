@@ -1,42 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-           id="phonegap-plugin-speech-synthesis"
-      version="0.1.0">
-    <name>SpeechSynthesis</name>
-    <description>Cordova Speech Synthesis Plugin</description>
-    <license>MIT</license>
-    <keywords>cordova,speech,synthesis,tts</keywords>
-
-    <!-- android -->
-    <platform name="android">
-        <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="SpeechSynthesis">
-                <param name="android-package" value="org.apache.cordova.speech.SpeechSynthesis"/>
-            </feature>
-        </config-file>
-
-        <source-file src="src/android/SpeechSynthesis.java" target-dir="src/org/apache/cordova/speech" />
-
-        <js-module src="www/SpeechSynthesis.js" name="SpeechSynthesis">
-            <clobbers target="window.speechSynthesis" />
-        </js-module>
-
-        <js-module src="www/SpeechSynthesisUtterance.js" name="SpeechSynthesisUtterance">
-            <clobbers target="SpeechSynthesisUtterance" />
-        </js-module>
-
-        <js-module src="www/SpeechSynthesisEvent.js" name="SpeechSynthesisEvent">
-            <clobbers target="SpeechSynthesisEvent" />
-        </js-module>
-
-        <js-module src="www/SpeechSynthesisVoice.js" name="SpeechSynthesisVoice">
-            <clobbers target="SpeechSynthesisVoice" />
-        </js-module>
-
-        <js-module src="www/SpeechSynthesisVoiceList.js" name="SpeechSynthesisVoiceList">
-            <clobbers target="SpeechSynthesisVoiceList" />
-        </js-module>
-     </platform>
-
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0" id="phonegap-plugin-speech-synthesis" version="0.1.1">
+  <name>SpeechSynthesis</name>
+  <description>Cordova Speech Synthesis Plugin</description>
+  <license>MIT</license>
+  <keywords>cordova,speech,synthesis,tts</keywords>
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="SpeechSynthesis">
+        <param name="android-package" value="org.apache.cordova.speech.SpeechSynthesis"/>
+      </feature>
+    </config-file>
+    <source-file src="src/android/SpeechSynthesis.java" target-dir="src/org/apache/cordova/speech"/>
+    <js-module src="www/SpeechSynthesis.js" name="SpeechSynthesis">
+      <clobbers target="window.speechSynthesis"/>
+    </js-module>
+    <js-module src="www/SpeechSynthesisUtterance.js" name="SpeechSynthesisUtterance">
+      <clobbers target="SpeechSynthesisUtterance"/>
+    </js-module>
+    <js-module src="www/SpeechSynthesisEvent.js" name="SpeechSynthesisEvent">
+      <clobbers target="SpeechSynthesisEvent"/>
+    </js-module>
+    <js-module src="www/SpeechSynthesisVoice.js" name="SpeechSynthesisVoice">
+      <clobbers target="SpeechSynthesisVoice"/>
+    </js-module>
+    <js-module src="www/SpeechSynthesisVoiceList.js" name="SpeechSynthesisVoiceList">
+      <clobbers target="SpeechSynthesisVoiceList"/>
+    </js-module>
+  </platform>
 </plugin>
