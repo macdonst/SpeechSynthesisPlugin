@@ -1,6 +1,6 @@
 {
   "name": "phonegap-plugin-speech-synthesis",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "W3C Web Speech API - Speech synthesis plugin for PhoneGap",
   "homepage": "https://github.com/macdonst/SpeechSynthesisPlugin#readme",
   "scripts": {
