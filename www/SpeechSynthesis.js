@@ -1,6 +1,6 @@
 
 var exec = require("cordova/exec");
-var SpeechSynthesisVoiceList = require("org.apache.cordova.speech.speechsynthesis.SpeechSynthesisVoiceList");
+var SpeechSynthesisVoiceList = require("./SpeechSynthesisVoiceList");
 
 var SpeechSynthesis = function() {
     this.pending = false;
