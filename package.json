@@ -4,7 +4,7 @@
   "description": "W3C Web Speech API - Speech synthesis plugin for PhoneGap",
   "homepage": "https://github.com/macdonst/SpeechSynthesisPlugin#readme",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node --color spec"
   },
   "repository": {
     "type": "git",
@@ -29,5 +29,8 @@
     "cordova-browser"
   ],
   "author": "Simon MacDonald",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "jasmine-node": "^1.14.5"
+  }
 }
