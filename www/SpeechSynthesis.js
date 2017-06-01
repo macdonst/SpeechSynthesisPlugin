@@ -39,6 +39,13 @@ SpeechSynthesis.prototype.speak = function(utterance) {
     exec(successCallback, errorCallback, "SpeechSynthesis", "speak", [utterance]);
 };
 
+SpeechSynthesis.prototype.isLanguageAvailable = function(lang, callback) {
+    var successCallback = function(data) {
+        return callback(data);
+    };
+    exec(successCallback, null, "SpeechSynthesis", "isLanguageAvailable", [lang]);
+};
+
 SpeechSynthesis.prototype.cancel = function() {
     exec(null, null, "SpeechSynthesis", "cancel", []);
 };
