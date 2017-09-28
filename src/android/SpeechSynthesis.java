@@ -32,6 +32,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
     private static final int STARTED = 2;
     private TextToSpeech mTts = null;
     private int state = STOPPED;
+    private boolean retrieval_error = false;
     private CallbackContext startupCallbackContext;
     private CallbackContext callbackContext;
 
@@ -60,7 +61,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
                         voiceCode = voice.optString("voiceURI", null);
                     }
                 }
-                if (voiceCode != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (voiceCode != null && voiceList != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     for (Voice v : this.voiceList) {
                         if (voiceCode.equals(v.getName())) {
                             mTts.setVoice(v);
@@ -138,8 +139,9 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
                 PluginResult pluginResult = new PluginResult(status, SpeechSynthesis.INITIALIZING);
                 pluginResult.setKeepCallback(true);
                 startupCallbackContext.sendPluginResult(pluginResult);
+            } else if(action.equals("error_check")) {
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, retrieval_error));
             }
-
 			
 			
             else if (action.equals("shutdown")) {
@@ -168,26 +170,37 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
         JSONObject voice;
         //List<TextToSpeech.EngineInfo> engines = mTts.getEngines();
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            this.voiceList = mTts.getVoices();
-            for (Voice v : this.voiceList) {
-                Locale locale = v.getLocale();
-                voice = new JSONObject();
-                try {
-                    voice.put("voiceURI", v.getName());
-                    voice.put("name", locale.getDisplayLanguage(locale) + " " + locale.getDisplayCountry(locale));
-                    //voice.put("features", v.getFeatures());
-                    //voice.put("displayName", locale.getDisplayLanguage(locale) + " " + locale.getDisplayCountry(locale));
-                    voice.put("lang", locale.getLanguage()+"-"+locale.getCountry());
-                    voice.put("localService", !v.isNetworkConnectionRequired());
-                    voice.put("quality", v.getQuality());
-                    voice.put("default", false);
-                } catch (JSONException e) {
-                    // should never happen
+        boolean retrieved = false;
+        try {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                this.voiceList = mTts.getVoices();
+                for (Voice v : this.voiceList) {
+                    Locale locale = v.getLocale();
+                    voice = new JSONObject();
+                    try {
+                        voice.put("voiceURI", v.getName());
+                        voice.put("name", locale.getDisplayLanguage(locale) + " " + locale.getDisplayCountry(locale));
+                        //voice.put("features", v.getFeatures());
+                        //voice.put("displayName", locale.getDisplayLanguage(locale) + " " + locale.getDisplayCountry(locale));
+                        voice.put("lang", locale.getLanguage()+"-"+locale.getCountry());
+                        voice.put("localService", !v.isNetworkConnectionRequired());
+                        voice.put("quality", v.getQuality());
+                        voice.put("default", false);
+                    } catch (JSONException e) {
+                        // should never happen
+                    }
+                    voices.put(voice);
                 }
-                voices.put(voice);
+                retrieved = true;
             }
-        }else{
+        } catch(IllegalArgumentException e) { 
+            // java.lang.IllegalArgumentException is raised on some Galaxy S4 devices when trying to retrieve tts voices.
+            // The ultimate fix is to clear the cache on the voice or delete the system's Samsung voice, but at least
+            // this will prevent apps from crashing.
+            retrieval_error = true;
+        }
+        
+        if(!retrieved) {
             //Iterator<Locale> list = voiceList.iterator();
             Locale[] list = Locale.getAvailableLocales();
             Locale locale;
