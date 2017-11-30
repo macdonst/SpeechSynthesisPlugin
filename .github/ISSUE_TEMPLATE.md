@@ -4,7 +4,7 @@
 
 ### Reproduce Scenario (including but not limited to)
 
-#### Steps to Reproduce 
+#### Steps to Reproduce
 
 #### Platform and Version (eg. Android 5.0 or iOS 9.2.1)
 
@@ -17,7 +17,7 @@
 
 #### Plugin version
 
-    cordova plugin version | grep phonegap-plugin-push   # e.g. 1.5.3
+    cordova plugin version | grep phonegap-plugin-speech-synthesis    # e.g. 1.5.3
 
 #### Sample Push Data Payload
 
