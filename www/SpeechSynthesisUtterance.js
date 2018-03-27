@@ -1,5 +1,5 @@
-var SpeechSynthesisUtterance = function() {
-    this.text;
+var SpeechSynthesisUtterance = function(text) {
+    this.text = text;
     this.lang;
     this.voiceURI;
     this.volume;
