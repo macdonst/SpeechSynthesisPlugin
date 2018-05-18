@@ -23,8 +23,5 @@
     <js-module src="www/SpeechSynthesisVoice.js" name="SpeechSynthesisVoice">
       <clobbers target="SpeechSynthesisVoice"/>
     </js-module>
-    <js-module src="www/SpeechSynthesisVoiceList.js" name="SpeechSynthesisVoiceList">
-      <clobbers target="SpeechSynthesisVoiceList"/>
-    </js-module>
   </platform>
 </plugin>

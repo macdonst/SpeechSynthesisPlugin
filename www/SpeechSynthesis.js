@@ -1,15 +1,19 @@
 
 var exec = require("cordova/exec");
-var SpeechSynthesisVoiceList = require("./SpeechSynthesisVoiceList");
 
 var SpeechSynthesis = function() {
     this.pending = false;
     this.speaking = false;
     this.paused = false;
-    this._voices = null;
+    this._voices = [];
+    this.onvoiceschanged = null;
+
     var that = this;
-    var successCallback = function(data) {
-    	that._voices = new SpeechSynthesisVoiceList(data);
+    var successCallback = function (data) {
+        that._voices = data;
+        if (typeof that.onvoiceschanged === "function") {
+            that.onvoiceschanged({ type: "voiceschanged" });
+        }
     };
     exec(successCallback, null, "SpeechSynthesis", "startup", []);
 };
