@@ -1,7 +1,8 @@
-var SpeechSynthesisEvent = function() {
-    this.charIndex;
-    this.elapsedTime;
-    this.name;
+var SpeechSynthesisEvent = function () {
+    this.type = "";
+    this.charIndex = 0;
+    this.elapsedTime = 0;
+    this.name = null;
 };
 
 module.exports = SpeechSynthesisEvent;

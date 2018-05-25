@@ -92,7 +92,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
                     callbackContext.sendPluginResult(pr);
                     mTts.speak(text, TextToSpeech.QUEUE_ADD, map);
                 } else {
-                    fireErrorEvent(callbackContext);
+                    fireErrorEvent(callbackContext, 6, "Not ready.");
                 }
             } else if (action.equals("cancel")) {
                 if (isReady()) {
@@ -102,7 +102,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
                     mTts.speak("", TextToSpeech.QUEUE_FLUSH, map);
                     fireEndEvent(callbackContext);
                 } else {
-                    fireErrorEvent(callbackContext);
+                    fireErrorEvent(callbackContext, 6, "Not ready.");
                 }
             } else if (action.equals("pause")) {
                 Log.d(LOG_TAG, "Not implemented yet");
@@ -113,7 +113,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
                     mTts.stop();
                     callbackContext.sendPluginResult(new PluginResult(status, result));
                 } else {
-                    fireErrorEvent(callbackContext);
+                    fireErrorEvent(callbackContext, 6, "Not ready.");
                 }
             } else if (action.equals("silence")) {
                 if (isReady()) {
@@ -125,7 +125,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
                     pr.setKeepCallback(true);
                     callbackContext.sendPluginResult(pr);
                 } else {
-                    fireErrorEvent(callbackContext);
+                    fireErrorEvent(callbackContext, 6, "Not ready.");
                 }
             } else if (action.equals("startup")) {
                 this.startupCallbackContext = callbackContext;
@@ -228,13 +228,15 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
         callbackContext.sendPluginResult(pr);
     }
 
-    private void fireErrorEvent(CallbackContext callbackContext)
+    private void fireErrorEvent(CallbackContext callbackContext, int errCode, String message)
             throws JSONException {
         JSONObject error = new JSONObject();
         error.put("type","error");
         error.put("charIndex",0);
         error.put("elapsedTime",0);
         error.put("name","");
+        error.put("error", errCode);
+        error.put("message", message);
         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, error));
     }
 
