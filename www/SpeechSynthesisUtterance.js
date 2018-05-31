@@ -1,7 +1,7 @@
 var SpeechSynthesisUtterance = function(text) {
     this.text = text;
     this.lang;
-    this.voiceURI;
+    this.voice;
     this.volume;
     this.rate;
     this.pitch;
