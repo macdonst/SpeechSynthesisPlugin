@@ -4,7 +4,7 @@ var SpeechSynthesisVoice = function() {
   this.name;
   this.lang;
   this.localService;
-  this._default;
+  this.default;
 };
 
 module.exports = SpeechSynthesisVoice;

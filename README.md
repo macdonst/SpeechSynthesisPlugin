@@ -1,12 +1,20 @@
 # SpeechSynthesisPlugin
 
-W3C Web Speech API - Speech synthesis plugin for PhoneGap
+W3C Web Speech API - Speech synthesis plugin for Cordova/PhoneGap.
+
+This plugin provides speech synthesis support for Android.
+For iOS, Windows 10, and Browser, the native webview implementation is used.
 
 # Installation
 
 ## Phone Gap
 
 Using the command line tools run:
+
+    phonegap plugin add phonegap-plugin-speech-synthesis
+    cordova plugin add phonegap-plugin-speech-synthesis
+
+Or to use the Github version:
 
     phonegap plugin add https://github.com/macdonst/SpeechSynthesisPlugin
     cordova plugin add https://github.com/macdonst/SpeechSynthesisPlugin

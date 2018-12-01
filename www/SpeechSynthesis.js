@@ -1,15 +1,22 @@
 
 var exec = require("cordova/exec");
-var SpeechSynthesisVoiceList = require("./SpeechSynthesisVoiceList");
 
 var SpeechSynthesis = function() {
     this.pending = false;
     this.speaking = false;
     this.paused = false;
-    this._voices = null;
+    this._voices = [];
+    this.onvoiceschanged = null;
+
     var that = this;
-    var successCallback = function(data) {
-    	that._voices = new SpeechSynthesisVoiceList(data);
+    var successCallback = function (data) {
+        if (Array.isArray(data)) {
+            that._voices = data;
+
+            if (that._voices.length && typeof that.onvoiceschanged === "function") {
+                that.onvoiceschanged({ type: "voiceschanged" });
+            }
+        }
     };
     exec(successCallback, null, "SpeechSynthesis", "startup", []);
 };
@@ -30,9 +37,17 @@ SpeechSynthesis.prototype.speak = function(utterance) {
 			utterance.onboundry(event);
 		}
 	};
-	var errorCallback = function() {
+	var errorCallback = function(err) {
 		if (typeof utterance.onerror === "function") {
-			utterance.onerror();
+		    var error = new SpeechSynthesisErrorEvent();
+
+		    error.error = SpeechSynthesisErrorEvent._errorCodes[err.error];
+		    error.message = err.message;
+		    error.charIndex = err.charIndex;
+		    error.elapsedTime = err.elapsedTime;
+		    error.name = err.name;
+
+		    utterance.onerror(error);
 		}
 	};
 
