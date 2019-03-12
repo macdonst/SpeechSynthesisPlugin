@@ -27,4 +27,30 @@
       <clobbers target="SpeechSynthesisVoice"/>
     </js-module>
   </platform>
+  <platform name="ios">
+    <config-file target="config.xml" parent="/*">
+      <feature name="SpeechSynthesis">
+        <param name="ios-package" value="SpeechSynthesis"/>
+      </feature>
+    </config-file>
+    <header-file src="src/ios/NSMutableArray+QueueAdditions.h" />
+    <source-file src="src/ios/NSMutableArray+QueueAdditions.m" />
+    <header-file src="src/ios/SpeechSynthesis.h" />
+    <source-file src="src/ios/SpeechSynthesis.m" />
+    <js-module src="www/SpeechSynthesis.js" name="SpeechSynthesis">
+      <clobbers target="window.speechSynthesis"/>
+    </js-module>
+    <js-module src="www/SpeechSynthesisUtterance.js" name="SpeechSynthesisUtterance">
+      <clobbers target="SpeechSynthesisUtterance"/>
+    </js-module>
+    <js-module src="www/SpeechSynthesisEvent.js" name="SpeechSynthesisEvent">
+      <clobbers target="SpeechSynthesisEvent"/>
+    </js-module>
+    <js-module src="www/SpeechSynthesisErrorEvent.js" name="SpeechSynthesisErrorEvent">
+      <clobbers target="SpeechSynthesisErrorEvent"/>
+    </js-module>
+    <js-module src="www/SpeechSynthesisVoice.js" name="SpeechSynthesisVoice">
+      <clobbers target="SpeechSynthesisVoice"/>
+    </js-module>
+  </platform>
 </plugin>
