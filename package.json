@@ -1,17 +1,17 @@
 {
   "name": "phonegap-plugin-speech-synthesis",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "W3C Web Speech API - Speech synthesis plugin for PhoneGap",
-  "homepage": "https://github.com/macdonst/SpeechSynthesisPlugin#readme",
+  "homepage": "https://github.com/wifisher/SpeechSynthesisPlugin#readme",
   "scripts": {
     "test": "jasmine-node --color spec"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/macdonst/SpeechSynthesisPlugin.git"
+    "url": "git+https://github.com/wifisher/SpeechSynthesisPlugin.git"
   },
   "bugs": {
-    "url": "https://github.com/macdonst/SpeechSynthesisPlugin/issues"
+    "url": "https://github.com/wifisher/SpeechSynthesisPlugin/issues"
   },
   "cordova": {
     "id": "phonegap-plugin-speech-synthesis",
@@ -31,6 +31,7 @@
     "cordova-browser"
   ],
   "author": "Simon MacDonald",
+  "contributors": ["Wayne Fisher <wayne@fisherlea.com"],
   "license": "MIT",
   "dependencies": {
     "jasmine-node": "^1.14.5",

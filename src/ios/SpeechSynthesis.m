@@ -1,9 +1,23 @@
+/*
+    Modified for use in the Speech Synthesis plugin by Wayne Fisher.
+    Copyright (c) 2019 Fisherlea Systems.
+
+    Original code from:
+    Cordova Text-to-Speech Plugin
+    https://github.com/vilic/cordova-plugin-tts
+ 
+    by VILIC VANE
+    https://github.com/vilic
+ 
+    MIT License
+*/
+
 #import <Cordova/CDV.h>
 #import <Cordova/CDVAvailability.h>
 #import "SpeechSynthesis.h"
 #import "NSMutableArray+QueueAdditions.h"
 
-#if 1
+#if 0
 #define DBG(a)          NSLog(a)
 #define DBG1(a, b)      NSLog(a, b)
 #define DBG2(a, b, c)   NSLog(a, b, c)
@@ -168,6 +182,8 @@
     NSMutableArray* list = [[NSMutableArray alloc] init];
     NSArray *voices = [AVSpeechSynthesisVoice speechVoices];
 
+    DBG1(@"Number of voices: %d", (int) voices.count);
+
     for (id voiceName in voices) {
         NSMutableDictionary * voiceDict = [[NSMutableDictionary alloc] init];
         [voiceDict setValue:[voiceName valueForKey:@"identifier"] forKey:@"voiceURI"];
@@ -175,7 +191,11 @@
         [voiceDict setValue:[voiceName valueForKey:@"language"] forKey:@"lang"];
         [voiceDict setValue:[NSNumber numberWithBool:true] forKey:@"localService"];
         [voiceDict setValue:[NSNumber numberWithBool:false] forKey:@"default"];
+        
+        [list addObject:voiceDict];
     }
+
+    DBG1(@"Number of voices in list: %d", (int) list.count);
 
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:list];
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
