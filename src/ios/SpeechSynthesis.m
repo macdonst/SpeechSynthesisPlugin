@@ -53,6 +53,24 @@
         route = audioSession.currentRoute;
         port = route.inputs[0];
         NSLog(@"[ss] Now using device %@", port.portType);
+    } else if ([reason unsignedIntegerValue] == AVAudioSessionRouteChangeReasonCategoryChange) {
+        NSLog(@"[ss] AVAudioSessionRouteChangeReasonCategoryChange");
+
+        AVAudioSessionCategory category = [audioSession category];
+
+        NSLog(@"[ss] AVAudioSession category: %@, categoryOptions = %d",
+              category, (int) audioSession.categoryOptions);
+
+        if(![category isEqualToString:AVAudioSessionCategoryPlayback] &&
+           ![category isEqualToString:AVAudioSessionCategoryPlayAndRecord]) {
+            if([category isEqualToString:AVAudioSessionCategoryRecord]) {
+                category = AVAudioSessionCategoryPlayAndRecord;
+            } else {
+                category = AVAudioSessionCategoryPlayback;
+            }
+            
+            [audioSession setCategory:category error:nil];
+        }
     }
 }
 
@@ -72,12 +90,17 @@
     
     AVAudioSessionCategory category = [audioSession category];
     if(![category isEqualToString:AVAudioSessionCategoryPlayback] &&
-       !![category isEqualToString:AVAudioSessionCategoryPlayAndRecord]) {
+       ![category isEqualToString:AVAudioSessionCategoryPlayAndRecord]) {
         [audioSession setActive:NO withOptions:0 error:nil];
         
+        if([category isEqualToString:AVAudioSessionCategoryRecord]) {
+            category = AVAudioSessionCategoryPlayAndRecord;
+        } else {
+            category = AVAudioSessionCategoryPlayback;
+        }
+
         NSUInteger options = [audioSession categoryOptions] | AVAudioSessionCategoryOptionDuckOthers;
-        [audioSession setCategory:AVAudioSessionCategoryPlayback
-                      withOptions:options error:nil];
+        [audioSession setCategory:category withOptions:options error:nil];
     }
 
     if (!lang || (id)lang == [NSNull null]) {
