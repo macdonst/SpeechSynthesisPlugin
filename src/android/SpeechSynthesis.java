@@ -6,6 +6,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Locale;
 import java.util.Set;
 
+import java.lang.IllegalArgumentException;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -204,18 +206,26 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener {
             //    locale = list.next();
             for (int i = 0; i < list.length; i++) {
                 locale = list[i];
-                voice = new JSONObject();
-                if (mTts.isLanguageAvailable(locale) > 0) {     // ie LANG_COUNTRY_AVAILABLE or LANG_COUNTRY_VAR_AVAILABLE
-                    try {
+                try {
+                    // PMPA-680: Filter out just English and French since the app doesn't support anything else.
+                    if ((locale.getLanguage().equals("en") || locale.getLanguage().equals("fr")) &&
+                        mTts.isLanguageAvailable(locale) > 0) { // ie LANG_COUNTRY_AVAILABLE or LANG_COUNTRY_VAR_AVAILABLE
+                        voice = new JSONObject();
                         voice.put("voiceURI", locale.getLanguage()+"-"+locale.getCountry());
                         voice.put("name", locale.getDisplayLanguage(locale) + " " + locale.getDisplayCountry(locale));
                         voice.put("lang", locale.getLanguage()+"-"+locale.getCountry());
                         voice.put("localService", true);
                         voice.put("default", false);
-                    } catch (JSONException e) {
-                        // should never happen
+                        voices.put(voice);
                     }
-                    voices.put(voice);
+                } catch (JSONException e) {
+                    // should never happen
+                } catch (IllegalArgumentException e) {
+                    // PMPA-680: See some exceptions here from some Android variants.
+                    Log.d(LOG_TAG, "Caught IllegalArgumentException for locale " + locale + " - " + e);
+                } catch (Exception e) {
+                    // PMPA-680: See some exceptions here from some Android variants.
+                    Log.d(LOG_TAG, "Caught Exception for locale " + locale + " - " + e);
                 }
             }
         }
