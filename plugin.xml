@@ -10,6 +10,12 @@
         <param name="android-package" value="org.apache.cordova.speech.SpeechSynthesis"/>
       </feature>
     </config-file>
+    <config-file target="AndroidManifest.xml" parent="/*">
+      <queries>
+        <intent>
+          <action android:name="android.speech.action.RECOGNIZE_SPEECH"/>
+        </intent>
+    </config-file>
     <source-file src="src/android/SpeechSynthesis.java" target-dir="src/org/apache/cordova/speech"/>
     <js-module src="www/SpeechSynthesis.js" name="SpeechSynthesis">
       <clobbers target="window.speechSynthesis"/>
