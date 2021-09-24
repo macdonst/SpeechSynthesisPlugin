@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-  id="cordova-plugin-speech-synthesis"
+  id="@red-mobile/cordova-plugin-speech-synthesis"
   version="0.1.1">
   <name>SpeechSynthesis</name>
   <description>Cordova Speech Synthesis Plugin</description>

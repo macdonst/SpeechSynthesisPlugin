@@ -6,7 +6,7 @@ W3C Web Speech API - Speech synthesis plugin for Cordova
 
 Using the command line tools run:
 
-    cordova plugin add @okhiroyuki/cordova-plugin-speech-synthesis
+    cordova plugin add @red-mobile/cordova-plugin-speech-synthesis
 
 ## Example Code
 
