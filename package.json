@@ -1,6 +1,6 @@
 {
   "name": "@red-mobile/cordova-plugin-speech-synthesis",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "W3C Web Speech API - Speech synthesis plugin for Cordova",
   "homepage": "https://github.com/okhiroyuki/cordova-plugin-speech-synthesis#readme",
   "scripts": {
