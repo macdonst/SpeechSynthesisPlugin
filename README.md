@@ -1,4 +1,4 @@
-# SpeechSynthesisPlugin
+# cordova-plugin-speech-synthesis
 
 W3C Web Speech API - Speech synthesis plugin for Cordova
 
