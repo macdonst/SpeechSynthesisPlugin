@@ -1,20 +1,20 @@
 {
-  "name": "phonegap-plugin-speech-synthesis",
+  "name": "@okhiroyuki/cordova-plugin-speech-synthesis",
   "version": "0.1.1",
-  "description": "W3C Web Speech API - Speech synthesis plugin for PhoneGap",
-  "homepage": "https://github.com/macdonst/SpeechSynthesisPlugin#readme",
+  "description": "W3C Web Speech API - Speech synthesis plugin for Cordova",
+  "homepage": "https://github.com/okhiroyuki/cordova-plugin-speech-synthesis#readme",
   "scripts": {
     "test": "jasmine-node --color spec"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/macdonst/SpeechSynthesisPlugin.git"
+    "url": "git+https://github.com/okhiroyuki/cordova-plugin-speech-synthesis.git"
   },
   "bugs": {
-    "url": "https://github.com/macdonst/SpeechSynthesisPlugin/issues"
+    "url": "https://github.com/okhiroyuki/cordova-plugin-speech-synthesis/issues"
   },
   "cordova": {
-    "id": "phonegap-plugin-speech-synthesis",
+    "id": "@okhiroyuki/cordova-plugin-speech-synthesis",
     "platforms": [
       "ios",
       "android",
@@ -23,7 +23,6 @@
   },
   "keywords": [
     "ecosystem:cordova",
-    "ecosystem:phonegap",
     "cordova-ios",
     "cordova-android",
     "cordova-browser"
