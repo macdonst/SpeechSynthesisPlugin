@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0" id="phonegap-plugin-speech-synthesis" version="0.2.1">
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0" id="phonegap-plugin-speech-synthesis" version="0.2.2">
   <name>SpeechSynthesis</name>
   <description>Cordova Speech Synthesis Plugin</description>
   <license>MIT</license>
@@ -9,6 +9,13 @@
       <feature name="SpeechSynthesis">
         <param name="android-package" value="org.apache.cordova.speech.SpeechSynthesis"/>
       </feature>
+    </config-file>
+    <config-file target="AndroidManifest.xml" parent="/*">
+      <queries>
+        <intent>
+          <action android:name="android.speech.action.RECOGNIZE_SPEECH"/>
+        </intent>
+      </queries>
     </config-file>
     <source-file src="src/android/SpeechSynthesis.java" target-dir="src/org/apache/cordova/speech"/>
     <js-module src="www/SpeechSynthesis.js" name="SpeechSynthesis">
