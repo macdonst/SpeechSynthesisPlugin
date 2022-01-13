@@ -13,7 +13,7 @@
     <config-file target="AndroidManifest.xml" parent="/*">
       <queries>
         <intent>
-          <action android:name="android.speech.action.RECOGNIZE_SPEECH"/>
+          <action android:name="android.intent.action.TTS_SERVICE" />
         </intent>
       </queries>
     </config-file>
