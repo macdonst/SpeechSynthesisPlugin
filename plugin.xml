@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0" id="phonegap-plugin-speech-synthesis" version="0.1.1">
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0" id="phonegap-plugin-speech-synthesis" version="0.2.2">
   <name>SpeechSynthesis</name>
   <description>Cordova Speech Synthesis Plugin</description>
   <license>MIT</license>
@@ -9,6 +9,13 @@
       <feature name="SpeechSynthesis">
         <param name="android-package" value="org.apache.cordova.speech.SpeechSynthesis"/>
       </feature>
+    </config-file>
+    <config-file target="AndroidManifest.xml" parent="/*">
+      <queries>
+        <intent>
+          <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+      </queries>
     </config-file>
     <source-file src="src/android/SpeechSynthesis.java" target-dir="src/org/apache/cordova/speech"/>
     <js-module src="www/SpeechSynthesis.js" name="SpeechSynthesis">
@@ -20,11 +27,37 @@
     <js-module src="www/SpeechSynthesisEvent.js" name="SpeechSynthesisEvent">
       <clobbers target="SpeechSynthesisEvent"/>
     </js-module>
+    <js-module src="www/SpeechSynthesisErrorEvent.js" name="SpeechSynthesisErrorEvent">
+      <clobbers target="SpeechSynthesisErrorEvent"/>
+    </js-module>
     <js-module src="www/SpeechSynthesisVoice.js" name="SpeechSynthesisVoice">
       <clobbers target="SpeechSynthesisVoice"/>
     </js-module>
-    <js-module src="www/SpeechSynthesisVoiceList.js" name="SpeechSynthesisVoiceList">
-      <clobbers target="SpeechSynthesisVoiceList"/>
+  </platform>
+  <platform name="ios">
+    <config-file target="config.xml" parent="/*">
+      <feature name="SpeechSynthesis">
+        <param name="ios-package" value="SpeechSynthesis"/>
+      </feature>
+    </config-file>
+    <header-file src="src/ios/NSMutableArray+QueueAdditions.h" />
+    <source-file src="src/ios/NSMutableArray+QueueAdditions.m" />
+    <header-file src="src/ios/SpeechSynthesis.h" />
+    <source-file src="src/ios/SpeechSynthesis.m" />
+    <js-module src="www/SpeechSynthesis.js" name="SpeechSynthesis">
+      <clobbers target="window.speechSynthesis"/>
+    </js-module>
+    <js-module src="www/SpeechSynthesisUtterance.js" name="SpeechSynthesisUtterance">
+      <clobbers target="SpeechSynthesisUtterance"/>
+    </js-module>
+    <js-module src="www/SpeechSynthesisEvent.js" name="SpeechSynthesisEvent">
+      <clobbers target="SpeechSynthesisEvent"/>
+    </js-module>
+    <js-module src="www/SpeechSynthesisErrorEvent.js" name="SpeechSynthesisErrorEvent">
+      <clobbers target="SpeechSynthesisErrorEvent"/>
+    </js-module>
+    <js-module src="www/SpeechSynthesisVoice.js" name="SpeechSynthesisVoice">
+      <clobbers target="SpeechSynthesisVoice"/>
     </js-module>
   </platform>
 </plugin>
