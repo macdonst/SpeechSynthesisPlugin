@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
   id="@red-mobile/cordova-plugin-speech-synthesis"
-  version="0.2.0">
+  version="0.3.0">
   <name>SpeechSynthesis</name>
   <description>Cordova Speech Synthesis Plugin</description>
   <license>MIT</license>
@@ -9,29 +9,36 @@
   <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="SpeechSynthesis">
-        <param name="android-package" value="org.apache.cordova.speech.SpeechSynthesis"/>
+        <param name="android-package" value="org.apache.cordova.plugins.speech.synthesis.SpeechSynthesis"/>
       </feature>
     </config-file>
+
     <config-file target="AndroidManifest.xml" parent="/*">
       <queries>
         <intent>
-          <action android:name="android.speech.action.RECOGNIZE_SPEECH"/>
+          <action android:name="android.intent.action.TTS_SERVICE" />
         </intent>
       </queries>
     </config-file>
-    <source-file src="src/android/SpeechSynthesis.java" target-dir="src/org/apache/cordova/speech"/>
+
+    <source-file src="src/android/org/apache/cordova/plugins/speech/synthesis/SpeechSynthesis.java" target-dir="src/org/apache/cordova/plugins/speech/synthesis"/>
+
     <js-module src="www/SpeechSynthesis.js" name="SpeechSynthesis">
       <clobbers target="window.speechSynthesis"/>
     </js-module>
+
     <js-module src="www/SpeechSynthesisUtterance.js" name="SpeechSynthesisUtterance">
       <clobbers target="SpeechSynthesisUtterance"/>
     </js-module>
+
     <js-module src="www/SpeechSynthesisEvent.js" name="SpeechSynthesisEvent">
       <clobbers target="SpeechSynthesisEvent"/>
     </js-module>
+
     <js-module src="www/SpeechSynthesisVoice.js" name="SpeechSynthesisVoice">
       <clobbers target="SpeechSynthesisVoice"/>
     </js-module>
+
     <js-module src="www/SpeechSynthesisVoiceList.js" name="SpeechSynthesisVoiceList">
       <clobbers target="SpeechSynthesisVoiceList"/>
     </js-module>
