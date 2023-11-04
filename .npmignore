@@ -1,0 +1,15 @@
+# Git
+.git
+.gitattributes
+.gitignore
+
+# Github
+.github
+
+testapp
+.editorconfig
+.eslintcache
+.eslintrc.json
+.node-version
+.pre-commit-config.yaml
+renovate.json

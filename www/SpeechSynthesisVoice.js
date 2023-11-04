@@ -1,5 +1,4 @@
-
-var SpeechSynthesisVoice = function() {
+var SpeechSynthesisVoice = function () {
   this.voiceURI;
   this.name;
   this.lang;

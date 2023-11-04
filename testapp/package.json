@@ -1,0 +1,30 @@
+{
+  "name": "com.example.cordovatestapp",
+  "displayName": "CordovaTestApp",
+  "version": "1.0.0",
+  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "main": "index.js",
+  "scripts": {
+    "postprepare": "node copy-module-from-parent.js"
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "Apache Cordova Team",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "recursive-copy": "2.0.14"
+  },
+  "devDependencies": {
+    "@red-mobile/cordova-plugin-speech-synthesis": "file:temp-module-copy",
+    "cordova-android": "12.0.1"
+  },
+  "cordova": {
+    "platforms": [
+      "android"
+    ],
+    "plugins": {
+      "@red-mobile/cordova-plugin-speech-synthesis": {}
+    }
+  }
+}
