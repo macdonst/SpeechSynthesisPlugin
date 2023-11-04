@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
-import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.speech.tts.Voice;
 import android.util.Log;
 
@@ -18,7 +17,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
 
-public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, OnUtteranceCompletedListener {
+public class SpeechSynthesis extends CordovaPlugin implements OnInitListener {
 
     private static final String LOG_TAG = "TTS";
     private static final int STOPPED = 0;
@@ -48,26 +47,31 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
               String lang = utterance.optString("lang", "en");
               mTts.setLanguage(new Locale(lang));
 
-              String voiceCode = utterance.optString("voiceURI", null);
-              for (Voice v : this.voiceList) {
-                if (voiceCode.equals(v.getName())) {
-                  mTts.setVoice(v);
-                  //text+=" yay! found the voice!";
-                }
+              String voiceCode = utterance.optString("voiceURI", "");
+              if (voiceCode.equals("")) {
+                  JSONObject voice = utterance.optJSONObject("voice");
+                  if (voice != null) {
+                      voiceCode = voice.optString("voiceURI", "");
+                  }
+              }
+              if (!voiceCode.equals("")) {
+                  for (Voice v : this.voiceList) {
+                      if (voiceCode.equals(v.getName())) {
+                          mTts.setVoice(v);
+                          //text+=" yay! found the voice!";
+                      }
+                  }
               }
 
               float pitch = (float) utterance.optDouble("pitch", 1.0);
               mTts.setPitch(pitch);
 
-              float volume = (float) utterance.optDouble("volume", 0.5);
-              // how to set volume
-
               float rate = (float) utterance.optDouble("rate", 1.0);
               mTts.setSpeechRate(rate);
 
               if (isReady()) {
-                HashMap<String, String> map = null;
-                map = new HashMap<String, String>();
+                HashMap<String, String> map;
+                map = new HashMap<>();
                 map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, callbackContext.getCallbackId());
                 JSONObject event = new JSONObject();
                 event.put("type", "start");
@@ -124,7 +128,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
                 state = SpeechSynthesis.INITIALIZING;
                 mTts = new TextToSpeech(cordova.getActivity().getApplicationContext(), this);
               } else {
-                getVoices(callbackContext);
+                getVoices();
               }
               PluginResult pluginResult = new PluginResult(status, SpeechSynthesis.INITIALIZING);
               pluginResult.setKeepCallback(true);
@@ -152,7 +156,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
         return false;
     }
 
-    private void getVoices(CallbackContext callbackContext) {
+    private void getVoices() {
         JSONArray voices = new JSONArray();
         JSONObject voice;
         //List<TextToSpeech.EngineInfo> engines = mTts.getEngines();
@@ -164,8 +168,6 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
           try {
               voice.put("voiceURI", v.getName());
               voice.put("name", locale.getDisplayLanguage(locale) + " " + locale.getDisplayCountry(locale));
-              //voice.put("features", v.getFeatures());
-              //voice.put("displayName", locale.getDisplayLanguage(locale) + " " + locale.getDisplayCountry(locale));
               voice.put("lang", locale.getLanguage()+"-"+locale.getCountry());
               voice.put("localService", !v.isNetworkConnectionRequired());
               voice.put("quality", v.getQuality());
@@ -176,9 +178,8 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
           voices.put(voice);
       }
       PluginResult result = new PluginResult(PluginResult.Status.OK, voices);
-        result.setKeepCallback(false);
-        startupCallbackContext.sendPluginResult(result);
-        mTts.setOnUtteranceCompletedListener(this);
+      result.setKeepCallback(false);
+      startupCallbackContext.sendPluginResult(result);
     }
 
     private void fireEndEvent(CallbackContext callbackContext) {
@@ -218,7 +219,7 @@ public class SpeechSynthesis extends CordovaPlugin implements OnInitListener, On
     public void onInit(int status) {
         if (mTts != null && status == TextToSpeech.SUCCESS) {
             state = SpeechSynthesis.STARTED;
-            getVoices(this.startupCallbackContext);
+            getVoices();
 
 
 //                Putting this code in hear as a place holder. When everything moves to API level 15 or greater
